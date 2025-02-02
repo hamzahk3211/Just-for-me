@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق حمزة</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffebee;
+            font-family: Arial, sans-serif;
+        }
+        .message {
+            font-size: 40px;
+            color: #ff1493;
+            margin-bottom: 20px;
+        }
+        .heart {
+            font-size: 100px;
+            cursor: grab;
+            position: absolute;
+            color: #ff1493;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="message">حمزة بيحبك ❤️</div>
+    <div class="heart" id="heart">❤️</div>
+
+    <audio id="background-music" autoplay loop>
+        <source src="everything.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script>
+        // تشغيل الأغنية تلقائيًا
+        document.addEventListener('DOMContentLoaded', function() {
+            var audio = document.getElementById('background-music');
+            audio.play();
+        });
+
+        // جعل القلب يتحرك مع تحريك الإصبع
+        const heart = document.getElementById('heart');
+        let isDragging = false;
+
+        heart.addEventListener('mousedown', function(event) {
+            isDragging = true;
+            moveHeart(event);
+        });
+
+        document.addEventListener('mousemove', function(event) {
+            if (isDragging) {
+                moveHeart(event);
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            isDragging = false;
+        });
+
+        function moveHeart(event) {
+            const x = event.clientX - heart.offsetWidth / 2;
+            const y = event.clientY - heart.offsetHeight / 2;
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+        }
+
+        // دعم الشاشات التي تعمل باللمس
+        heart.addEventListener('touchstart', function(event) {
+            isDragging = true;
+            moveHeartTouch(event);
+        });
+
+        document.addEventListener('touchmove', function(event) {
+            if (isDragging) {
+                moveHeartTouch(event);
+            }
+        });
+
+        document.addEventListener('touchend', function() {
+            isDragging = false;
+        });
+
+        function moveHeartTouch(event) {
+            const touch = event.touches[0];
+            const x = touch.clientX - heart.offsetWidth / 2;
+            const y = touch.clientY - heart.offsetHeight / 2;
+            heart.style.left = `${x}px`;
+            heart.style.top = `${y}px`;
+        }
+    </script>
+</body>
+</html>
